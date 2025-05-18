@@ -3,11 +3,12 @@ import Board from './components/Board';
 import ScoreBoard from './components/ScoreBoard';
 import type { GameState } from './types';
 import './App.css';
+import Modal from './components/Modal';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>({
     score: 0,
-    level: 1
+    level: 10
   });
 
   const handleScoreUpdate = (points: number): void => {
@@ -26,6 +27,12 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
+      {gameState.level>10&&(
+        <Modal
+          score={gameState.score}
+          highScore={1}
+        />
+      )}
       <h1 className=' font-bold text-5xl'>Memory Game</h1>
       <ScoreBoard score={gameState.score} level={gameState.level} />
       <Board 

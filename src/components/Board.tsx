@@ -34,11 +34,20 @@ const Board: React.FC<BoardProps> = ({ level, onScoreUpdate, onLevelComplete }) 
     generateCards();
   }, [level]);
 
+  //Validates if you win the game based on pairs matched and level
   useEffect(() => {
     if (matchedPairs.length-1 === level) {
       
-      console.log(level%2==0? (level*2)+1:'este es el level: ' + level)
-      onLevelComplete();
+      console.log('Pasaste el nivel: ' + level)
+      setTimeout(()=>{
+        setMatchedPairs([])
+        document.querySelector('.board')?.classList.add("pointer-events-none")
+      },1000)
+      
+      setTimeout(()=>{
+        onLevelComplete();
+        document.querySelector('.board')?.classList.remove("pointer-events-none")
+      },2000)
     }
   }, [matchedPairs, onLevelComplete, level]);
 
@@ -65,6 +74,7 @@ const Board: React.FC<BoardProps> = ({ level, onScoreUpdate, onLevelComplete }) 
       setFlippedCards([card]);
     }
   };
+  
 
   // const gridStyle = ():{ gridTemplateColumns: string; }=>{
   //   if (cards.length){
@@ -80,6 +90,7 @@ const Board: React.FC<BoardProps> = ({ level, onScoreUpdate, onLevelComplete }) 
     <div className=' max-w-3xl m-auto '>
       <div className="board">
         {cards.map((card) => (
+          level <= 10 ? (
           <Card
             key={card.id}
             card={card}
@@ -91,7 +102,7 @@ const Board: React.FC<BoardProps> = ({ level, onScoreUpdate, onLevelComplete }) 
             disabled={disabled}
             level={level}
           />
-        ))}
+        ):null))}
       </div>
     </div>
   );
