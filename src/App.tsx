@@ -1,44 +1,42 @@
-import React, { useState } from 'react';
 import Board from './components/Board';
 import ScoreBoard from './components/ScoreBoard';
-import type { GameState } from './types';
 import './App.css';
 import Modal from './components/Modal';
+import {useMemory} from './hooks/useMemory'
 
 const App: React.FC = () => {
-  const [gameState, setGameState] = useState<GameState>({
-    score: 0,
-    level: 10
-  });
-
-  const handleScoreUpdate = (points: number): void => {
-    setGameState(prevState => ({
-      ...prevState,
-      score: prevState.score + points
-    }));
-  };
-
-  const handleLevelComplete = (): void => {
-    setGameState(prevState => ({
-      ...prevState,
-      level: prevState.level + 1
-    }));
-  };
+  const {gameState, cards, disabled, handleCardClick, flippedCards, matchedPairs, handleRestartClick} = useMemory()
+  
 
   return (
     <div className="App">
+      <div className="background">
+        <div className="pattern"></div>
+        <div className="gradient-overlay"></div>
+        <div className="light-effect light1"></div>
+        <div className="light-effect light2"></div>
+    </div>
+    
       {gameState.level>10&&(
         <Modal
           score={gameState.score}
-          highScore={1}
+          highScore={gameState.highScore}
+          handleRestartClick={handleRestartClick}
         />
       )}
-      <h1 className=' font-bold text-5xl'>Memory Game</h1>
-      <ScoreBoard score={gameState.score} level={gameState.level} />
-      <Board 
+      <h1 className=' font-bold text-5xl glass-card max-w-3xl m-auto'>Memory Game</h1>
+      <ScoreBoard 
+        score={gameState.score}
         level={gameState.level} 
-        onScoreUpdate={handleScoreUpdate}
-        onLevelComplete={handleLevelComplete}
+        highScore={gameState.highScore}
+        handleRestartClick={handleRestartClick}/>
+      <Board 
+        level = {gameState.level}
+        cards = {cards}
+        disabled = {disabled}
+        handleCardClick = {handleCardClick}
+        flippedCards = {flippedCards}
+        matchedPairs = {matchedPairs}
       />
     </div>
   );
