@@ -19,9 +19,10 @@ const Board: React.FC<BoardProps> = ({ cards, level, handleCardClick, disabled, 
     if(level%2==0 && parseInt(backgroundGlass.style.height.split('px')[0])){
       backgroundGlass.style.height=`${130+((level*110)/2)}px`
     }
-    if(level==1){
+    if(level==1 || !parseInt(backgroundGlass.style.height.split('px')[0])){
       backgroundGlass.style.height='130px'
     }
+    console.log(backgroundGlass.style.height)
   },[level])
 
   return (
@@ -42,8 +43,8 @@ const Board: React.FC<BoardProps> = ({ cards, level, handleCardClick, disabled, 
           />
         ):null))}
         {level<=10?
-        <div className='glass-card md:w-3xl w-[90dvw] -z-1 absolute h-[350px] glassBoard'></div>:
-        <div className='md:w-3xl w-[90dvw] -z-1 absolute h-[350px] glassBoard'></div>
+        <div className='glass-card md:w-3xl w-[90dvw] -z-1 absolute glassBoard'></div>:
+        <div className='md:w-3xl w-[90dvw] -z-1 absolute glassBoard'></div>
         }
         
       </div>
