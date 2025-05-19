@@ -79,7 +79,6 @@ export const useMemory= ()=>{
   const handleRestartClick = ()=>{
     localStorage.setItem('memoriceScore',JSON.stringify(0))
     localStorage.setItem('memoriceLevel',JSON.stringify(1))
-    setCards([])
     setFlippedCards([])
     setMatchedPairs([])
     setDisabled(false)

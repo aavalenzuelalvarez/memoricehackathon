@@ -14,7 +14,7 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({ score, level, highScore, handle
     <div className="flex justify-center flex-col m-auto max-w-3xl glass-card">
       <div className="">Level: {level}</div>
       <div className="justify-around flex flex-row"><p className='font-bold'>Score: {score}</p> <p className='font-bold'>High Score: {highScore}</p></div>
-      <button className='border
+      {level>1?<button className='border
       w-[200px]
       m-auto 
       bg-cyan-200 
@@ -25,7 +25,8 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({ score, level, highScore, handle
       transition-all
       z-10
       glass-button
-      ' onClick={()=>handleRestartClick()}>RESTART!</button>
+      ' onClick={()=>handleRestartClick()}>RESTART!</button>:<p></p>}
+      
     </div>
   );
 };

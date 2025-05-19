@@ -16,11 +16,11 @@ const Board: React.FC<BoardProps> = ({ cards, level, handleCardClick, disabled, 
 
   useEffect(()=>{
     const backgroundGlass = document.querySelector('.glassBoard') as HTMLElement
-    if(level%2==0 && parseInt(backgroundGlass.style.height.split('px')[0])){
+    if(level%2==0){
       backgroundGlass.style.height=`${130+((level*110)/2)}px`
     }
-    if(level==1 || !parseInt(backgroundGlass.style.height.split('px')[0])){
-      backgroundGlass.style.height='130px'
+    if(level%2==1){
+      backgroundGlass.style.height=`${130+(((level-1)*110)/2)}px`
     }
     console.log(backgroundGlass.style.height)
   },[level])
