@@ -6,9 +6,9 @@ type ModalProps={
 
 export default function Modal({score, highScore, handleRestartClick}:ModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center glass-card">
-      <div className="fixed inset-0 bg-black/50 transition-opacity">
-        <div className="fixed inset-x-0 top-[30%] border max-w-xl m-auto bg-blue-100 rounded p-2">
+    <div className="fixed inset-0 z-50 flex items-center justify-center ">
+      <div className="fixed inset-0 transition-opacity">
+        <div className="fixed inset-x-0 top-[30%] border max-w-xs md:max-w-xl m-auto glass-card p-2">
           <h2>CONGRATULATIONS!</h2>
           <div>
             <p>Score: {score}</p>
@@ -23,6 +23,7 @@ export default function Modal({score, highScore, handleRestartClick}:ModalProps)
       hover:shadow-md
       hover:w-[250px]
       shadow-cyan-200
+      glass-button
       transition-all" onClick={()=>{handleRestartClick()}}>RETRY!</button>
           </div>
         </div>

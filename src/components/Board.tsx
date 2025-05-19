@@ -41,7 +41,11 @@ const Board: React.FC<BoardProps> = ({ cards, level, handleCardClick, disabled, 
             level={level}
           />
         ):null))}
-        <div className='glass-card w-3xl -z-1 absolute h-[350px] glassBoard'></div>
+        {level<=10?
+        <div className='glass-card md:w-3xl w-[90dvw] -z-1 absolute h-[350px] glassBoard'></div>:
+        <div className='md:w-3xl w-[90dvw] -z-1 absolute h-[350px] glassBoard'></div>
+        }
+        
       </div>
     </div>
   );
