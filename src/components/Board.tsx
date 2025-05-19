@@ -1,94 +1,32 @@
-import React, { useState, useEffect} from 'react';
 import Card from './Card';
-import type { Card as CardType } from '../types';
 import '../styles/ScoreBoard.css';
+import type { Card as CardType } from '../types';
+import { useEffect } from 'react';
 
 interface BoardProps {
-  level: number;
-  onScoreUpdate: (points: number) => void;
-  onLevelComplete: () => void;
+  level:number
+  cards: CardType[]
+  disabled: boolean
+  handleCardClick: (card: CardType) => void
+  flippedCards: CardType[]
+  matchedPairs: string[]
 }
 
-const Board: React.FC<BoardProps> = ({ level, onScoreUpdate, onLevelComplete }) => {
-  const [cards, setCards] = useState<CardType[]>([]);
-  const [flippedCards, setFlippedCards] = useState<CardType[]>([]);
-  const [matchedPairs, setMatchedPairs] = useState<string[]>([]);
-  const [disabled, setDisabled] = useState<boolean>(false);
+const Board: React.FC<BoardProps> = ({ cards, level, handleCardClick, disabled, flippedCards, matchedPairs }) => {
 
-  useEffect(() => {
-    const generateCards = (): void => {
-      const cardPairs: number = level + 1;
-      const symbols: string[] = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯','🐟'];
-      const selectedSymbols: string[] = symbols.slice(0, cardPairs);
-      
-      const newCards: CardType[] = [...selectedSymbols, ...selectedSymbols]
-        .sort(() => Math.random() - 0.5)
-        .map((content, index) => ({
-          id: index,
-          content,
-          isMatched: false
-        }));
-      
-      setCards(newCards);
-    };
-    generateCards();
-  }, [level]);
-
-  //Validates if you win the game based on pairs matched and level
-  useEffect(() => {
-    if (matchedPairs.length-1 === level) {
-      
-      console.log('Pasaste el nivel: ' + level)
-      setTimeout(()=>{
-        setMatchedPairs([])
-        document.querySelector('.board')?.classList.add("pointer-events-none")
-      },1000)
-      
-      setTimeout(()=>{
-        onLevelComplete();
-        document.querySelector('.board')?.classList.remove("pointer-events-none")
-      },2000)
+  useEffect(()=>{
+    const backgroundGlass = document.querySelector('.glassBoard') as HTMLElement
+    if(level%2==0 && parseInt(backgroundGlass.style.height.split('px')[0])){
+      backgroundGlass.style.height=`${130+((level*110)/2)}px`
     }
-  }, [matchedPairs, onLevelComplete, level]);
-
-  const handleCardClick = (card: CardType): void => {
-    if (flippedCards.length === 1) {
-      setDisabled(true);
-      const newFlippedCards = [...flippedCards, card];
-      setFlippedCards(newFlippedCards);
-
-      if (newFlippedCards[0].content === card.content) {
-        setMatchedPairs([...matchedPairs, card.content]);
-        setFlippedCards([]);
-        onScoreUpdate(10);
-      } else {
-        document.querySelector('.board')?.classList.add("pointer-events-none")
-        setTimeout(() => {
-          setFlippedCards([]);
-          onScoreUpdate(-5);
-          document.querySelector('.board')?.classList.remove("pointer-events-none")
-        }, 1000);
-      }
-      setDisabled(false);
-    } else {
-      setFlippedCards([card]);
+    if(level==1){
+      backgroundGlass.style.height='130px'
     }
-  };
-  
-
-  // const gridStyle = ():{ gridTemplateColumns: string; }=>{
-  //   if (cards.length){
-  //     return {
-  //       gridTemplateColumns:`repeat(4,1fr`
-  //     }
-  //   }else{
-  //     return {gridTemplateColumns:`repeat(4,1fr`}
-  //   }
-  // }
+  },[level])
 
   return (
-    <div className=' max-w-3xl m-auto '>
-      <div className="board">
+    <div className=' max-w-2xl m-auto md:max-w-3xl'>
+      <div className="board z-10 relative">
         {cards.map((card) => (
           level <= 10 ? (
           <Card
@@ -103,6 +41,11 @@ const Board: React.FC<BoardProps> = ({ level, onScoreUpdate, onLevelComplete }) 
             level={level}
           />
         ):null))}
+        {level<=10?
+        <div className='glass-card md:w-3xl w-[90dvw] -z-1 absolute h-[350px] glassBoard'></div>:
+        <div className='md:w-3xl w-[90dvw] -z-1 absolute h-[350px] glassBoard'></div>
+        }
+        
       </div>
     </div>
   );

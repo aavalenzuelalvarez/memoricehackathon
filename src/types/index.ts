@@ -7,4 +7,5 @@ export interface Card {
 export interface GameState {
   score: number;
   level: number;
+  highScore:number;
 }
